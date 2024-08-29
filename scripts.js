@@ -38,7 +38,7 @@ const operateLogic = () => {
     result = operate(operator, numberList[0], numberList[1]);
     eraseDisplay();
     if (isNaN(result)) {
-        addToDisplay("lmao");
+        return "lmao"
     } else {
         numberList = numberList.slice(2);
         operator = null;
