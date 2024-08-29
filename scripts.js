@@ -1,5 +1,5 @@
 let numberList = [];
-let operatorList = [];
+let operator = null;
 let lastNumber = "result";
 
 const add = (a, b) => {
@@ -35,13 +35,13 @@ const operate = (operator, firstNumber, secondNumber) => {
 };
 
 const operateLogic = () => {
-    result = operate(operatorList[0], numberList[0], numberList[1]);
+    result = operate(operator, numberList[0], numberList[1]);
     eraseDisplay();
     if (isNaN(result)) {
         addToDisplay("lmao");
     } else {
         numberList = numberList.slice(2);
-        operatorList = operatorList.slice(1);
+        operator = null;
         roundedResult = Math.round(result * 100000) / 100000;
         numberList.unshift(roundedResult);
     }
@@ -62,23 +62,25 @@ const eraseDisplay = () => {
 };
 
 const clearLastValue = () => {
-    if (isOperator(lastNumber)) {
-        operatorList.pop()
-        lastNumber = numberList[numberList.length - 1].slice(length - 1);
-        eraseDisplay();
-        addToDisplay(numberList[numberList.length - 1]);
-    } else {
-        let tempNumber = String(numberList.pop());
-        if (tempNumber.length > 1) {
-            newNumber = tempNumber.split('').slice(0, tempNumber.length - 1).join();
-            lastNumber = newNumber.slice(length - 1);
+    if (numberList.length != 0 || operator != null) {
+        if (isOperator(lastNumber)) {
+            operator = null
+            lastNumber = numberList[numberList.length - 1].slice(length - 1);
+            eraseDisplay();
+            addToDisplay(numberList[numberList.length - 1]);
         } else {
-            newNumber = "";
-            lastNumber = "result"
+            let tempNumber = String(numberList.pop());
+            if (tempNumber.length > 1) {
+                newNumber = tempNumber.split('').slice(0, tempNumber.length - 1).join();
+                lastNumber = newNumber.slice(length - 1);
+            } else {
+                newNumber = "";
+                lastNumber = "result"
+            }
+            numberList.push(newNumber);
+            eraseDisplay();
+            addToDisplay(newNumber);
         }
-        numberList.push(newNumber);
-        eraseDisplay();
-        addToDisplay(newNumber);
     }
 };
 
@@ -131,7 +133,7 @@ touchButtons.forEach((touchButton) => {
             if (touchButton.className == "numberTouch") {
                 if (lastNumber == "result") {
                     numberList = [];
-                    operatorList = [];
+                    operator = null;
                     numberList.push(buttonTextContent);
                     eraseDisplay();
                 }
@@ -142,10 +144,10 @@ touchButtons.forEach((touchButton) => {
                     eraseDisplay();
                 }
             } else if (touchButton.className == "operatorTouch") {
-                if (operatorList.length > 0) {
+                if (operator != null) {
                     operationResult = operateLogic();
                 }
-                operatorList.push(buttonTextContent);
+                operator = buttonTextContent;
                 eraseDisplay();
             }
             addToDisplay(buttonTextContent);
@@ -156,7 +158,7 @@ touchButtons.forEach((touchButton) => {
 
 const operateTouch = document.querySelector("#operateTouch");
 operateTouch.addEventListener("click", () => {
-    if (numberList.length < 2 && operatorList.length < 1) {
+    if (numberList.length < 2 && operator == null) {
         window.alert("Error, please enter an operation before pressing =")
     } else {
         operationResult = operateLogic();
