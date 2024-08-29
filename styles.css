@@ -1,6 +1,15 @@
+:root {
+    --operator-color: rgb(242, 163, 60);
+    --erase-buttons-color: rgb(72, 84, 104);
+    --value-buttons-color: rgb(102, 112, 129);
+    --display-color: rgb(59, 73, 88);
+}
+
 * {
     padding: 0;
     margin: 0;
+    color: white;
+    font-size: 1.2rem;
 }
 
 .calculatorContainer {
@@ -11,13 +20,14 @@
 
 .calculator {
     width: 15em;
-    border: solid black 2px;
+    border: solid var(--display-color) 2px;
     height: 20em;
 }
 
 .displaySection {
     height: 20%;
-    border: solid black 1px;
+    border: solid var(--display-color) 1px;
+    background-color: var(--display-color);
 }
 
 .displaySectionText {
@@ -26,7 +36,6 @@
     height: 100%;
     text-align: right;
     padding: 1em;
-    font-size: large;
 }
 
 .keyboardSection {
@@ -43,6 +52,7 @@
 .eraseSection {
     flex: 1;
     display: flex;
+    background-color: var(--erase-buttons-color);
 }
 
 .eraseButton {
@@ -50,7 +60,7 @@
     justify-content: center;
     align-items: center;
     flex: 1;
-    border: solid black 1px;
+    border: solid var(--display-color) 1px;
 }
 
 .backspaceButton {
@@ -58,7 +68,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid black 1px;
+    border: solid var(--display-color) 1px;
 }
 
 .numberKeyboardSection {
@@ -83,8 +93,8 @@
 
 .numberTouch {
     flex: 1;
-    background-color: aqua;
-    border: solid black 1px;
+    background-color: var(--value-buttons-color);
+    border: solid var(--display-color) 1px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,11 +102,12 @@
 
 
 .operatorTouch {
+    background-color: var(--operator-color);
     display: flex;
     justify-content: center;
     align-items: center;
     flex: 1;
-    border: solid black 1px;
+    border: solid var(--display-color) 1px;
 }
 
 .touchText {
