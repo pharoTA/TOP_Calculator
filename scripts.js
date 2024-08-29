@@ -34,6 +34,20 @@ const operate = (operator, firstNumber, secondNumber) => {
     return "Unknown operator";
 };
 
+const operateLogic = () => {
+    result = operate(operatorList[0], numberList[0], numberList[1]);
+    eraseDisplay();
+    if (isNaN(result)) {
+        addToDisplay("lmao");
+    } else {
+        numberList = numberList.slice(2);
+        operatorList = operatorList.slice(1);
+        roundedResult = Math.round(result * 100000) / 100000;
+        numberList.unshift(roundedResult);
+    }
+    return roundedResult;
+}
+
 const addToDisplay = (textToAdd) => {
     const displaySectionText = document.querySelector(".displaySectionText");
     const currentText = displaySectionText.textContent;
@@ -127,9 +141,10 @@ touchButtons.forEach((touchButton) => {
                     numberList.push(buttonTextContent);
                     eraseDisplay();
                 }
-                addToDisplay(buttonTextContent);
-                lastNumber = buttonTextContent;
             } else if (touchButton.className == "operatorTouch") {
+                if (operatorList.length > 0) {
+                    operationResult = operateLogic();
+                }
                 operatorList.push(buttonTextContent);
                 eraseDisplay();
             }
@@ -144,17 +159,8 @@ operateTouch.addEventListener("click", () => {
     if (numberList.length < 2 && operatorList.length < 1) {
         window.alert("Error, please enter an operation before pressing =")
     } else {
-        result = operate(operatorList[0], numberList[0], numberList[1]);
-        eraseDisplay();
-        if (isNaN(result)) {
-            addToDisplay("lmao");
-        } else {
-            numberList = numberList.slice(2);
-            operatorList = operatorList.slice(1);
-            roundedResult = Math.round(result * 100000) / 100000;
-            numberList.unshift(roundedResult);
-            addToDisplay(roundedResult);
-        }
-        lastNumber = "result";
+        operationResult = operateLogic();
+        addToDisplay(operationResult);
+        lastNumber = "result"
     }
 });
