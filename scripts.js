@@ -1,3 +1,7 @@
+let numberList = [];
+let operatorList = [];
+let lastNumber = "result";
+
 const add = (a, b) => {
     return a + b
 }
@@ -30,9 +34,7 @@ const operate = (operator, firstNumber, secondNumber) => {
     return "Unknown operator";
 };
 
-let numberList = [];
-let operatorList = [];
-let lastNumber = "result";
+
 
 const addToDisplay = (textToAdd) => {
     const displaySectionText = document.querySelector(".displaySectionText");
@@ -45,6 +47,22 @@ const addToDisplay = (textToAdd) => {
 const eraseDisplay = () => {
     const displaySectionText = document.querySelector(".displaySectionText");
     displaySectionText.textContent = ""
+};
+
+const clearLastValue = () => {
+    if (lastNumber == "+" || lastNumber == "*" || lastNumber == "/" || lastNumber == "-") {
+        eraseDisplay();
+        operatorList.pop()
+        addToDisplay(numberList[numberList.length - 1]);
+        lastNumber = numberList[numberList.length - 1].slice(length - 1);
+    } else {
+        let tempNumber = String(numberList.pop());
+        newNumber = tempNumber.split('').slice(0, tempNumber.length - 1).join();
+        lastNumber = newNumber.slice(length - 1);
+        numberList.push(newNumber + lastNumber);
+        eraseDisplay();
+        addToDisplay(newNumber);
+    }
 };
 
 const isDecimal = (numberToCheck) => {
@@ -71,6 +89,9 @@ const addFloatingPoint = () => {
 
 eraseButton = document.querySelector(".eraseButton");
 eraseButton.addEventListener("click", () => eraseDisplay());
+
+backspaceButton = document.querySelector(".backspaceButton");
+backspaceButton.addEventListener("click", () => clearLastValue())
 
 touchButtons = document.querySelectorAll(".numberTouch, .operatorTouch");
 

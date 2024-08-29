@@ -40,11 +40,24 @@
     flex-direction: column;
 }
 
+.eraseSection {
+    flex: 1;
+    display: flex;
+}
+
 .eraseButton {
     display: flex;
     justify-content: center;
     align-items: center;
     flex: 1;
+    border: solid black 1px;
+}
+
+.backspaceButton {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: solid black 1px;
 }
 
